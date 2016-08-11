@@ -27,7 +27,8 @@
     "is-plain-object": "^2.0.1",
     "lodash.assign": "^3.2.0",
     "lodash.defaults": "^3.1.2",
-    "require-dir": "^0.3.0"
+    "require-dir": "^0.3.0",
+    "lave": "^1.1.10"
   },
   "peerDependencies": {
     "webpack": "^1.12.0"
