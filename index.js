@@ -5,6 +5,9 @@ var path     = require('path'),
     defaults = require('lodash.defaults'),
     assign   = require('lodash.assign');
 
+var generate = require('escodegen').generate
+var lave = require('lave')
+
 var IGNORE = require('./lib/ignore'),
     cycle  = require('./lib/cycle'),
     encode = require('./lib/encode'),
@@ -60,7 +63,7 @@ PersistentCacheWebpackPlugin.prototype.apply = function apply(compiler) {
       stats.deserialise.fs.stop = Date.now();
 
       stats.deserialise.decode.start = Date.now();
-      pending = !error && contents && cycle.retrocycle(decode(JSON.parse(contents)));
+      pending = !error && contents && cycle.retrocycle(decode(eval(contents)));
       stats.deserialise.decode.stop = Date.now();
 
       stats.deserialise.success = !error;
@@ -105,7 +108,7 @@ PersistentCacheWebpackPlugin.prototype.apply = function apply(compiler) {
         stats.serialise.decycle.stop = Date.now();
 
         stats.serialise.fs.start = Date.now();
-        var buffer = new Buffer(JSON.stringify(decycled, null, 2));
+        var buffer = new Buffer(lave(decycled, { generate }));
         stats.serialise.size = buffer.length;
         fs.writeFile(filePath, buffer, complete);
       }
